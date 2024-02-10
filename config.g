@@ -34,9 +34,9 @@ M208 X0 Y0 Z0 S1                             ; set axis minima
 M208 X250 Y250 Z250 S0                       ; set axis maxima
 
 ; Endstops
-M574 X1 S1 P"!io1.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on X via pin !io1.in
-M574 Y1 S1 P"!io2.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Y via pin !io2.in
-M574 Z1 S1 P"!io3.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Z via pin !io3.in
+M574 X1 S1 P"io1.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on X via pin !io1.in
+M574 Y1 S1 P"io2.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Y via pin !io2.in
+M574 Z1 S1 P"io3.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Z via pin !io3.in
 
 ; Z-Probe
 M558 P0 H250 F120 T6000                      ; disable Z probe but set dive height, probe speed and travel speed
@@ -46,11 +46,13 @@ M557 X15:215 Y15:195 S20                     ; define mesh grid
 M308 S0 P"temp0" Y"thermistor" T100000 B4138 ; configure sensor 0 as thermistor on pin temp0
 M950 H0 C"out1" T0                           ; create bed heater output on out1 and map it to sensor 0
 M307 H0 B1 S1.00                             ; enable bang-bang mode for the bed heater and set PWM limit
+M307 H0 A340.0, C490.0, D50.5 S1.0			 ; eigene Werte
 M140 H0                                      ; map heated bed to heater 0
 M143 H0 S120                                 ; set temperature limit for heater 0 to 120C
-M308 S1 P"temp1" Y"thermistor" T100 B4138   ; configure sensor 1 as thermistor on pin temp1
+M308 S1 P"temp1" Y"thermistor" T500000 B4723 C1.196220e-7   ; configure sensor 1 as thermistor on pin temp1
 M950 H1 C"out2" T1                           ; create nozzle heater output on out2 and map it to sensor 1
 M307 H1 B0 S1.00                             ; disable bang-bang mode for heater  and set PWM limit
+M307 H1 A7.489, C131.7, D8.9 S0.0			 ; eigene Werte
 M143 H1 S280                                 ; set temperature limit for heater 1 to 280C
 
 ; Fans

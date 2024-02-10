@@ -20,40 +20,44 @@ M569 P0.1 S0                                 ; physical drive 0.1 goes backwards
 M569 P0.2 S0                                 ; physical drive 0.2 goes backwards
 M569 P0.3 S0                                 ; physical drive 0.3 goes backwards
 M569 P0.0 S1                                 ; physical drive 0.0 goes forwards
-M584 X0.1 Y0.2 Z0.3 E0.0                     ; set drive mapping
+M584 X0 Y1 Z2 E3                             ; set drive mapping
 M350 X16 Y16 Z16 E16 I1                      ; configure microstepping with interpolation
-M92 X80.00 Y80.00 Z400.00 E420.00            ; set steps per mm
-M566 X900.00 Y900.00 Z60.00 E120.00          ; set maximum instantaneous speed changes (mm/min)
-M203 X6000.00 Y6000.00 Z180.00 E1200.00      ; set maximum speeds (mm/min)
-M201 X500.00 Y500.00 Z20.00 E250.00          ; set accelerations (mm/s^2)
-M906 X800 Y800 Z800 E800 I30                 ; set motor currents (mA) and motor idle factor in per cent
+M92 X80.00 Y80.00 Z400.00 E93.00             ; set steps per mm
+M566 X1200.00 Y1200.00 Z60.00 E120.00        ; set maximum instantaneous speed changes (mm/min)
+M203 X9000.00 Y9000.00 Z180.00 E6000.00      ; set maximum speeds (mm/min)
+M201 X500.00 Y500.00 Z100.00 E5000.00        ; set accelerations (mm/s^2)
+M906 X800 Y800 Z800 E1000 I50                ; set motor currents (mA) and motor idle factor in per cent
 M84 S30                                      ; Set idle timeout
 
 ; Axis Limits
 M208 X0 Y0 Z0 S1                             ; set axis minima
-M208 X250 Y250 Z250 S0                       ; set axis maxima
+M208 X235 Y235 Z260 S0                       ; set axis maxima
 
 ; Endstops
-M574 X1 S1 P"io1.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on X via pin !io1.in
-M574 Y1 S1 P"io2.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Y via pin !io2.in
-M574 Z1 S1 P"io3.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Z via pin !io3.in
+M574 X1 S1 P"io1.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on X via pin io1.in
+M574 Y1 S1 P"io2.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Y via pin io2.in
+M574 Z1 S1 P"io3.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Z via pin io3.in
 
 ; Z-Probe
 M558 P0 H250 F120 T6000                      ; disable Z probe but set dive height, probe speed and travel speed
 M557 X15:215 Y15:195 S20                     ; define mesh grid
 
 ; Heaters
-M308 S0 P"temp0" Y"thermistor" T100000 B4138 ; configure sensor 0 as thermistor on pin temp0
-M950 H0 C"out1" T0                           ; create bed heater output on out1 and map it to sensor 0
-M307 H0 B1 S1.00                             ; enable bang-bang mode for the bed heater and set PWM limit
-M307 H0 A340.0, C490.0, D50.5 S1.0			 ; eigene Werte
-M140 H0                                      ; map heated bed to heater 0
-M143 H0 S120                                 ; set temperature limit for heater 0 to 120C
-M308 S1 P"temp1" Y"thermistor" T500000 B4723 C1.196220e-7   ; configure sensor 1 as thermistor on pin temp1
-M950 H1 C"out2" T1                           ; create nozzle heater output on out2 and map it to sensor 1
-M307 H1 B0 S1.00                             ; disable bang-bang mode for heater  and set PWM limit
-M307 H1 A7.489, C131.7, D8.9 S0.0			 ; eigene Werte
-M143 H1 S280                                 ; set temperature limit for heater 1 to 280C
+; Heated Bed
+M308 S0 P"temp0" Y"thermistor" T100000 B4092		; configure sensor 0 as thermistor on pin temp0
+M950 H0 C"out1" T0					; create bed heater output on out1 and map it to sensor 0
+M307 H0 B1 S1.00					; enable bang-bang mode for the bed heater and set PWM limit
+M307 H0 A340.0, C490.0, D50.5 S1.0
+M140 H0							; map heated bed to heater 0
+M143 H0 S110					;!	; set temperature limit for heater 0 to 110C
+
+; Hotend
+M308 S1 P"temp1" Y"thermistor" T500000 B4723 C1.196220e-7		; configure sensor 1 as thermistor on pin temp1
+M950 H1 C"out2" T1					; create nozzle heater output on out2 and map it to sensor 1
+;M307 H1 B0 S1.00				;!	; disable bang-bang mode for heater  and set PWM limit
+M307 H1 A7.489, C131.7, D8.9 S0.0		;!	; Deine Werte für das Hotend sind eingesetzt aus Deinem Bild!
+M143 H1 S300					;!	; set temperature limit for heater 1 to 300C
+M501 ;                                ; set temperature limit for heater 1 to 280C
 
 ; Fans
 M950 F0 C"out7" Q500                         ; create fan 0 on pin out7 and set its frequency

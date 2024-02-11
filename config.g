@@ -19,8 +19,9 @@ M586 P2 S0                                   ; disable Telnet
 M569 P0.1 S0                                 ; physical drive 0.1 goes backwards
 M569 P0.2 S0                                 ; physical drive 0.2 goes backwards
 M569 P0.3 S0                                 ; physical drive 0.3 goes backwards
+M569 P0.4 S0                                 ; physical drive 0.4 goes backwards
 M569 P0.0 S1                                 ; physical drive 0.0 goes forwards
-M584 X0 Y1 Z2 E3                             ; set drive mapping
+M584 E0.0 X0.1 Y0.2 Z0.3:0.4                 ; set drive mapping
 M350 X16 Y16 Z16 E16 I1                      ; configure microstepping with interpolation
 M92 X80.00 Y80.00 Z400.00 E93.00             ; set steps per mm
 M566 X1200.00 Y1200.00 Z60.00 E120.00        ; set maximum instantaneous speed changes (mm/min)
@@ -39,7 +40,7 @@ M574 Y1 S1 P"io2.in"                        ; configure switch-type (e.g. micros
 M574 Z1 S1 P"io3.in"                        ; configure switch-type (e.g. microswitch) endstop for low end on Z via pin io3.in
 
 ; Z-Probe
-M558 P0 H250 F120 T6000                      ; disable Z probe but set dive height, probe speed and travel speed
+M558 P5 C"io3.in" H3 F360 T20000             ; disable Z probe but set dive height, probe speed and travel speed
 M557 X15:215 Y15:195 S20                     ; define mesh grid
 
 ; Heaters
@@ -52,7 +53,7 @@ M140 H0							; map heated bed to heater 0
 M143 H0 S110					;!	; set temperature limit for heater 0 to 110C
 
 ; Hotend
-M308 S1 P"temp1" Y"thermistor" T500000 B4723 C1.196220e-7		; configure sensor 1 as thermistor on pin temp1
+M308 S1 P"temp1" Y"thermistor" T350000 B4723		; configure sensor 1 as thermistor on pin temp1
 M950 H1 C"out2" T1					; create nozzle heater output on out2 and map it to sensor 1
 ;M307 H1 B0 S1.00				;!	; disable bang-bang mode for heater  and set PWM limit
 M307 H1 A7.489, C131.7, D8.9 S0.0		;!	; Deine Werte für das Hotend sind eingesetzt aus Deinem Bild!
